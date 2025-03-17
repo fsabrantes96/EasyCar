@@ -21,16 +21,16 @@ Rotas - projetos EasyCar
 [X] - Consultar todos os dados de uma determinada corrida 
     GET -> /rides/123 
 
-[ ] - Motorista aceitar uma carona 
+[X] - Motorista aceitar uma carona 
     PUT -> /rides/123/accept
     Body: driver_user_id
 
-[ ] - Motorista cancelar uma carona
+[X] - Motorista cancelar uma carona
     PUT -> /rides/123/cancel
 
 Business Rules (Regras de Negocio)
 ----------------------------------------------
 
-[ ] o usuario só pode pedir uma carona por vez
+[X] o usuario só pode pedir uma carona por vez
 
 [ ] o motorista só pode aceitar uma carona por vez

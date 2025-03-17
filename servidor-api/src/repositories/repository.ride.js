@@ -1,6 +1,7 @@
 import {execute} from "../database/sqlite.js"
 
-async function List(passenger_user_id, pickup_date, ride_id, driver_user_id, status) {
+async function List(passenger_user_id, pickup_date, ride_id, 
+                    driver_user_id, status, status_not) {
     
     let filtro = [];
 
@@ -36,6 +37,11 @@ async function List(passenger_user_id, pickup_date, ride_id, driver_user_id, sta
         filtro.push(status);
     }
 
+    if (status_not) {
+        sql = sql + " and r.status <> ? ";
+        filtro.push(status_not);
+    }
+
     const rides = await execute(sql, filtro);
     return rides;
 }
@@ -43,12 +49,15 @@ async function List(passenger_user_id, pickup_date, ride_id, driver_user_id, sta
 async function Insert(passenger_user_id, pickup_address,
     pickup_latitude, pickup_longitude, dropoff_address) {
 
+    
+    let dt = new Date().toISOString("pt-BR", { timeZone: "America/Sao_Paulo" }).substring(0, 10);
+
     let sql = `insert into rides(passenger_user_id, pickup_address,
     pickup_latitude, pickup_longitude, dropoff_address, pickup_date, status) 
-    values (?, ?, ?, ?, ?, CURRENT_DATE, 'P') returning ride_id`;
+    values (?, ?, ?, ?, ?, ?, 'P') returning ride_id`;
 
     const ride = await execute(sql, [passenger_user_id, pickup_address,
-        pickup_latitude, pickup_longitude, dropoff_address]);
+        pickup_latitude, pickup_longitude, dropoff_address, dt]);
 
     return ride[0];
 }
